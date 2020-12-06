@@ -1,5 +1,6 @@
 defmodule ChoresWeb.Router do
   use ChoresWeb, :router
+  import ChoresWeb.UserAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -11,6 +12,8 @@ defmodule ChoresWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_current_user
   end
 
   scope "/", ChoresWeb do
@@ -19,10 +22,21 @@ defmodule ChoresWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ChoresWeb do
-  #   pipe_through :api
-  # end
+  # public api routes
+  scope "/api", ChoresWeb do
+    pipe_through :api
+
+    post "/auth/register", UserController, :register
+    post "/auth/login", UserController, :login
+  end
+
+  # restricted api routes
+  scope "/api", ChoresWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    get "/test", UserController, :test
+    delete "/auth/logout", UserController, :logout
+  end
 
   # Enables LiveDashboard only for development
   #

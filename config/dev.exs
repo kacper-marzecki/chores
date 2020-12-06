@@ -3,9 +3,10 @@ use Mix.Config
 # Configure your database
 config :chores, Chores.Repo,
   username: "postgres",
-  password: "postgres",
-  database: "chores_dev",
+  password: "docker",
+  database: "chores",
   hostname: "localhost",
+  port: 5432,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

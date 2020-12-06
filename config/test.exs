@@ -7,9 +7,10 @@ use Mix.Config
 # Run `mix help test` for more information.
 config :chores, Chores.Repo,
   username: "postgres",
-  password: "postgres",
-  database: "chores_test#{System.get_env("MIX_TEST_PARTITION")}",
+  password: "docker",
+  database: "chores_test",
   hostname: "localhost",
+  port: 5432,
   pool: Ecto.Adapters.SQL.Sandbox
 
 # We don't run a server during test. If one is required,
