@@ -8,26 +8,22 @@ defmodule ChoresWeb.UserController do
   action_fallback ChoresWeb.FallbackController
 
   def register(conn, %{"password" => _password, "login" => _login} = params) do
-    case Accounts.register(params) do
-      {:ok, user} ->
+      with {:ok, user} <- Accounts.register(params)
+      do
         conn
         |> UserAuth.log_in_user(user)
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        IO.puts(changeset)
-        Plug.Conn.resp(conn, 401, "")
+      # {:error, %Ecto.Changeset{} = changeset} ->
+      #   Plug.Conn.resp(conn, 422, "")
     end
   end
 
   # TODO change input
   def login(conn, user_params) do
     %{"login" => login, "password" => password} = user_params
-
-    if user = Accounts.get_user_by_login_and_password(login, password) do
-      UserAuth.log_in_user(conn, user)
-    else
-      render(conn, "new.html", error_message: "Invalid email or password")
-    end
+    with {:ok, user } <- Accounts.get_user_by_login_and_password(login, password)
+      do
+        UserAuth.log_in_user(conn, user)
+      end
   end
 
   # def logout(conn, opts) do

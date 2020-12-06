@@ -60,7 +60,9 @@ defmodule Chores.Accounts do
   def get_user_by_login_and_password(login, password)
       when is_binary(login) and is_binary(password) do
     user = Repo.get_by(User, login: login)
-    if User.valid_password?(user, password), do: user
+    if User.valid_password?(user, password)
+      do {:ok, user}
+      else {:error, :unauthorized} end
   end
 
   ## Session
@@ -84,7 +86,7 @@ defmodule Chores.Accounts do
   end
 
   @doc """
-  Deletes the session token 
+  Deletes the session token
   """
   def delete_session_token(token) do
     Repo.delete_all(UserToken.token_and_context_query(token, "session"))
