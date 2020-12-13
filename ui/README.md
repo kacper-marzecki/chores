@@ -1,6 +1,4 @@
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create CLJS App](https://github.com/filipesilva/create-cljs-app).
 
 ## Available Scripts
 
@@ -8,39 +6,66 @@ In the project directory, you can run:
 
 ### `yarn start`
 
-Runs the app in the development mode.\
+Runs the app in development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The page will reload if you make edits.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+The app uses [Reagent](https://reagent-project.github.io), a minimalistic interface between ClojureScript and React.<br>
+You can use existing npm React components directly via a [interop call](http://reagent-project.github.io/docs/master/InteropWithReact.html#creating-reagent-components-from-react-components).
 
-### `yarn test`
+Builds use [Shadow CLJS](https://github.com/thheller/shadow-cljs) for maximum compatibility with NPM libraries. You'll need a [Java SDK](https://adoptopenjdk.net/) (Version 8+, Hotspot) to use it. <br>
+You can [import npm libraries](https://shadow-cljs.github.io/docs/UsersGuide.html#js-deps) using Shadow CLJS. See the [user manual](https://shadow-cljs.github.io/docs/UsersGuide.html) for more information.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `yarn cards`
+
+Runs the interactive live development enviroment.<br>
+You can use it to design, test, and think about parts of your app in isolation.
+
+This environment uses [Devcards](https://github.com/bhauman/devcards) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro).
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `public` folder.<br>
+It correctly bundles all code and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Other useful scripts
 
-### `yarn eject`
+### `null` and `yarn e2e`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You can use `null` to run tests a single time, and `yarn e2e` to run the end-to-end test app.
+`yarn test` launches tests in interactive watch mode.<br>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+See the ClojureScript [testing page](https://clojurescript.org/tools/testing) for more information. E2E tests use [Taiko](https://github.com/getgauge/taiko) to interact with a headless browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### `yarn lint` and `yarn format`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+`yarn lint` checks the code for known bad code patterns using [clj-kondo](https://github.com/borkdude/clj-kondo).
 
-## Learn More
+`yarn format` will format your code in a consistent manner using [zprint-clj](https://github.com/clj-commons/zprint-clj).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `yarn report`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Make a report of what files contribute to your app size.<br>
+Consider [code-splitting](https://code.thheller.com/blog/shadow-cljs/2019/03/03/code-splitting-clojurescript.html) or using smaller libraries to make your app load faster.
+
+### `yarn server`
+
+Starts a Shadow CLJS background server.<br>
+This will speed up starting time for other commands that use Shadow CLJS.
+
+## Useful resources
+
+Clojurians Slack http://clojurians.net/.
+
+CLJS FAQ (for JavaScript developers) https://clojurescript.org/guides/faq-js.
+
+Official CLJS API https://cljs.github.io/api/.
+
+Quick reference https://cljs.info/cheatsheet/.
+
+Offline searchable docs https://devdocs.io/.
+
+VSCode plugin https://github.com/BetterThanTomorrow/calva.
+

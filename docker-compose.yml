@@ -1,0 +1,16 @@
+version: "3.2"
+services:
+  postgres:
+    image: library/postgres:13.1
+    environment:
+      - POSTGRES_PASSWORD=docker
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data postgres
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+      - "6379:6379"

@@ -22,7 +22,6 @@ defmodule ChoresWeb.FallbackController do
     |> render(:"404")
   end
 
-  # This clause is an example of how to handle resources that cannot be found.
   def call(conn, {:error, :unauthorized}) do
     conn
     |> Plug.Conn.resp(403, "")
