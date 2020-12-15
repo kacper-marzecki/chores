@@ -29,7 +29,9 @@ defmodule ChoresWeb.Telemetry do
         tags: [:route],
         unit: {:native, :millisecond}
       ),
-
+      counter("phoenix.router_dispatch.stop.duration",
+        tags: [:route]
+      ),
       # Database Metrics
       summary("chores.repo.query.total_time", unit: {:native, :millisecond}),
       summary("chores.repo.query.decode_time", unit: {:native, :millisecond}),

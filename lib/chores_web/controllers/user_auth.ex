@@ -102,9 +102,14 @@ defmodule ChoresWeb.UserAuth do
       conn
     else
       conn
-      |> resp(401, "UNAUTHORIZED")
+      |> resp(401, "")
       |> halt()
     end
+  end
+
+  @spec extract_user(Plug.Conn.t()) :: Chores.Accounts.User.t() | nil
+  def extract_user(conn) do
+    conn.assigns[:current_user]
   end
 
 end

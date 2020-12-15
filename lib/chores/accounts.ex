@@ -20,13 +20,20 @@ defmodule Chores.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def register(%{"password" => _password, "login"=> _login} = params) do
-    %User{}
-    |> User.registration_changeset(params)
-    |> Repo.insert()
+  def register(%{"password" => _password, "login"=> _login, "secret" => secret} = params) do
+    if  get_registration_secret() == secret do
+      %User{}
+      |> User.registration_changeset(params)
+      |> Repo.insert()
+    else
+      {:error, :unauthorized}
+    end
+
   end
 
-
+  defp get_registration_secret() do
+    System.get_env("REGISTRATION_SECRET")
+  end
 
  @spec get_user_by_login(binary) :: any
  @doc """
@@ -89,6 +96,7 @@ defmodule Chores.Accounts do
   Deletes the session token
   """
   def delete_session_token(token) do
+    # IO.puts(token)
     Repo.delete_all(UserToken.token_and_context_query(token, "session"))
     :ok
   end

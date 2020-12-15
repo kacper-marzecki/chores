@@ -34,7 +34,7 @@ defmodule ChoresWeb.Router do
   scope "/api", ChoresWeb do
     pipe_through [:api, :require_authenticated_user]
 
-    get "/test", UserController, :test
+    get "/loginCheck", UserController, :test
     delete "/auth/logout", UserController, :logout
   end
 

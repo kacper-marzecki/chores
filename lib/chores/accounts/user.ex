@@ -10,6 +10,16 @@ defmodule Chores.Accounts.User do
     timestamps()
   end
 
+  @type t() :: %__MODULE__{
+    __meta__: Ecto.Schema.Metadata.t(),
+    id: integer() | nil,
+    login: String.t(),
+    password: String.t(),
+    role: String.t(),
+    inserted_at: NaiveDateTime.t(),
+    updated_at: NaiveDateTime.t()
+  }
+
   @doc false
   def changeset(user, attrs) do
     user
