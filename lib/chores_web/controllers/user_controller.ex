@@ -7,15 +7,12 @@ defmodule ChoresWeb.UserController do
 
   action_fallback ChoresWeb.FallbackController
 
-
-
   def register(
         %Plug.Conn{} = conn,
         params
       ) do
-    with {:ok, req } <- Chores.LoginIn.create(params),
-          _ <- IO.puts(inspect(req)),
-          {:ok, user} <- Accounts.register(req) do
+    with {:ok, req} <- Chores.RegisterIn.create(params),
+         {:ok, user} <- Accounts.register(req) do
       conn
       |> UserAuth.log_in_user(user)
     end
@@ -40,7 +37,6 @@ defmodule ChoresWeb.UserController do
   end
 
   def logout(conn, _opts) do
-    IO.puts(inspect(conn.assigns[:current_user], pretty: true))
     UserAuth.log_out_user(conn)
   end
 end

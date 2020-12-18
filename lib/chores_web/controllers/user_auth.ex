@@ -20,8 +20,9 @@ defmodule ChoresWeb.UserAuth do
   function to customize this behaviour.
 
   """
-  def log_in_user(%Plug.Conn{}=conn, %Chores.Accounts.User{} = user) do
+  def log_in_user(%Plug.Conn{} = conn, %Chores.Accounts.User{} = user) do
     token = Accounts.generate_user_session_token(user)
+
     conn
     |> renew_session()
     |> put_session(:user_token, token)
@@ -29,7 +30,7 @@ defmodule ChoresWeb.UserAuth do
     |> send_resp(201, "")
   end
 
-  defp write_remember_me_cookie(%Plug.Conn{}=conn, token) do
+  defp write_remember_me_cookie(%Plug.Conn{} = conn, token) do
     put_resp_cookie(conn, @remember_me_cookie, token, @remember_me_options)
   end
 
@@ -48,7 +49,7 @@ defmodule ChoresWeb.UserAuth do
   #       |> put_session(:preferred_locale, preferred_locale)
   #     end
   #
-  defp renew_session(%Plug.Conn{}=conn) do
+  defp renew_session(%Plug.Conn{} = conn) do
     conn
     |> configure_session(renew: true)
     |> clear_session()
@@ -79,7 +80,7 @@ defmodule ChoresWeb.UserAuth do
     assign(conn, :current_user, user)
   end
 
-  defp ensure_user_token(%Plug.Conn{}=conn) do
+  defp ensure_user_token(%Plug.Conn{} = conn) do
     if user_token = get_session(conn, :user_token) do
       {user_token, conn}
     else
@@ -96,7 +97,7 @@ defmodule ChoresWeb.UserAuth do
   @doc """
   Used for routes that require the user to be authenticated.
   """
-  def require_authenticated_user(%Plug.Conn{}=conn, _opts) do
+  def require_authenticated_user(%Plug.Conn{} = conn, _opts) do
     if conn.assigns[:current_user] do
       conn
     else
@@ -107,8 +108,7 @@ defmodule ChoresWeb.UserAuth do
   end
 
   @spec extract_user(Plug.Conn.t()) :: Chores.Accounts.User.t() | nil
-  def extract_user(%Plug.Conn{}=conn) do
+  def extract_user(%Plug.Conn{} = conn) do
     conn.assigns[:current_user]
   end
-
 end

@@ -36,8 +36,7 @@ defmodule Chores.Accounts.User do
   could lead to unpredictable or insecure behaviour. Long passwords may
   also be very expensive to hash for certain algorithms.
   """
-  def registration_changeset(%Chores.LoginIn{} = attrs) do
-    IO.puts(inspect(attrs))
+  def registration_changeset(%Chores.RegisterIn{} = attrs) do
     %Chores.Accounts.User{}
     |> cast(Map.from_struct(attrs), [:login, :password])
     |> validate_login()

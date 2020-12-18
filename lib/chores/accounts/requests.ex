@@ -1,9 +1,9 @@
-defmodule Chores.LoginIn do
+defmodule Chores.RegisterIn do
   use Ecto.Schema
   import Ecto.Changeset
 
   @fields [:password, :login, :secret]
-  schema "LoginIn" do
+  schema "RegisterIn" do
     field :password, :string
     field :login, :string
     field :secret, :string
@@ -15,10 +15,10 @@ defmodule Chores.LoginIn do
           password: String.t(),
           secret: String.t()
         }
-  @spec create(map()) :: {:error, Ecto.Changeset.t()} | {:ok, Chores.LoginIn.t()}
+  @spec create(map()) :: {:error, Ecto.Changeset.t()} | {:ok, Chores.RegisterIn.t()}
   def create(params) do
     res =
-      %Chores.LoginIn{}
+      %Chores.RegisterIn{}
       |> cast(params, [:password, :login, :secret], required: true)
       |> validate_required(@fields)
 

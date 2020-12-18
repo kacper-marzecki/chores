@@ -21,7 +21,7 @@ defmodule Chores.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def register(%Chores.LoginIn{} = params) do
+  def register(%Chores.RegisterIn{} = params) do
     if  get_registration_secret() == params.secret do
       User.registration_changeset(params)
       |> Repo.insert()
