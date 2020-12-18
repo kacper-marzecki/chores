@@ -28,10 +28,6 @@ defmodule Chores.Accounts.User do
     |> unique_constraint(:login)
   end
 
-  defmodule Kek do
-    defstruct [:lel]
-  end
-
   @doc """
   A user changeset for registration.
 

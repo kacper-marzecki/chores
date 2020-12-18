@@ -35,6 +35,7 @@ defmodule ChoresWeb.Router do
     pipe_through [:api, :require_authenticated_user]
 
     get "/loginCheck", UserController, :test
+    resources "/activities", ActivityController, except: [:new, :edit]
     delete "/auth/logout", UserController, :logout
   end
 
