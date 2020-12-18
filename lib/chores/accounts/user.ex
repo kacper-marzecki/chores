@@ -28,6 +28,10 @@ defmodule Chores.Accounts.User do
     |> unique_constraint(:login)
   end
 
+  defmodule Kek do
+    defstruct [:lel]
+  end
+
   @doc """
   A user changeset for registration.
 
@@ -36,9 +40,10 @@ defmodule Chores.Accounts.User do
   could lead to unpredictable or insecure behaviour. Long passwords may
   also be very expensive to hash for certain algorithms.
   """
-  def registration_changeset(user, attrs) do
-    user
-    |> cast(attrs, [:login, :password])
+  def registration_changeset(%Chores.LoginIn{} = attrs) do
+    IO.puts(inspect(attrs))
+    %Chores.Accounts.User{}
+    |> cast(Map.from_struct(attrs), [:login, :password])
     |> validate_login()
     |> validate_password()
     |> validate_required([:login, :password])

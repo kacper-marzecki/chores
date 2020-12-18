@@ -4,7 +4,8 @@
             [app.api :as api]
             [app.utils :as u]
             [cljs.core.async :refer [<!]]
-            [app.chore-list :as chore-list]))
+            [app.chore-list :as chore-list]
+            [app.footer]))
 
 
 
@@ -22,6 +23,7 @@
         (swap! app-state (update-is-logged-in is-logged-in)))))
 
 (defn change-page [page]
+  (println @app-state)
   (swap! app-state  #(assoc-in %1 [:page] page)))
 
 (defn login []
@@ -89,9 +91,10 @@
 (defn navbar []
   (fn []
     (let [state @app-state
+          is-logged-in (:logged-in state)
           on-log-out (fn [_] (go (let [_ (<! (api/log-out))
                                        _ (<! (reload-logged-in))])))
-          log-in-buttons  (if (:logged-in state)
+          log-in-buttons  (if is-logged-in
                             [:div.buttons
                              [:a.button.is-primary {:href "#" :on-click on-log-out} "Log out"]]
                             [:div.buttons
@@ -100,7 +103,10 @@
                               "Log in"]
                              [:a.button.is-primary
                               {:href "#" :on-click #(change-page :sign-up)}
-                              "Sign up"]])]
+                              "Sign up"]])
+          menu (if is-logged-in
+                 [:a.navbar-item {:href "#"} "Chores"]
+                 nil)]
       [:nav.navbar
        [:div.container
         [:div.navbar-brand
@@ -112,7 +118,7 @@
           [:span {:aria-hidden "true"}]]]
         [:div.navbar-menu
          [:div.navbar-start
-          [:a.navbar-item {:href "#"} "Chores"]]
+          menu]
          [:div.navbar-end
           [:div.navbar-item
            log-in-buttons]]]]])))
@@ -121,15 +127,16 @@
   (fn []
     (let [state @app-state
           page (:page state)]
-      (prn page)
+      (prn "router" page)
       (case page
-        :chores-list (chore-list/chore-list)
+        :chores-list [chore-list/chore-list]
         :sign-up [sign-up]
         :login [login]))))
 
 (defn root []
   (let [_ (reload-logged-in)]
     (fn [] [:<>
-            [navbar]
-            [router]
+
+            [:div#wrapper [:div [navbar] [router {:id "wrapper"}]]]
+            [app.footer/footer]
             [str @app-state]])))

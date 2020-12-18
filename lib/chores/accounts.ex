@@ -8,6 +8,7 @@ defmodule Chores.Accounts do
   alias Chores.Accounts.User
   alias Chores.Accounts.UserToken
 
+  @spec register(map) :: {:ok, Chores.Accounts.User.t()} | {:error, any()}
   @doc """
   Creates a user.
 
@@ -20,10 +21,9 @@ defmodule Chores.Accounts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def register(%{"password" => _password, "login"=> _login, "secret" => secret} = params) do
-    if  get_registration_secret() == secret do
-      %User{}
-      |> User.registration_changeset(params)
+  def register(%Chores.LoginIn{} = params) do
+    if  get_registration_secret() == params.secret do
+      User.registration_changeset(params)
       |> Repo.insert()
     else
       {:error, :unauthorized}
@@ -35,7 +35,7 @@ defmodule Chores.Accounts do
     System.get_env("REGISTRATION_SECRET")
   end
 
- @spec get_user_by_login(binary) :: any
+ @spec get_user_by_login(String.t()) :: any
  @doc """
   Gets a user by email.
 

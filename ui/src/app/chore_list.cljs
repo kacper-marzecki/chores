@@ -5,7 +5,23 @@
             [app.utils :as u]
             [cljs.core.async :refer [<!]]))
 
-(defn chore-list []
-  (let [state (r/atom [])]
+(defn chore-row 
+  [{:keys [date login activity] :as chore}]
+  [:tr 
+   [:td date]
+   [:td login]
+   [:td activity]])
+
+(defn chore-list
+  []
+  (let [state (r/atom [{:date "asd" :login "login" :activity "activity"}])]
     (fn []
-      [:p "kek"])))
+      [:div.container
+       [:table.table.is-fullwidth
+        [:thead
+         [:tr
+          [:th "Date"]
+          [:th "Login"]
+          [:th "Chore"]]]
+        [:tbody
+         (map chore-row @state)]]])))
