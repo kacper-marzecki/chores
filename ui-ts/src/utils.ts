@@ -4,7 +4,6 @@ import { StoreValue } from "antd/lib/form/interface";
 import { NotificationInstance } from "antd/lib/notification";
 import Axios, { AxiosResponse } from "axios";
 import React from "react";
-import { ApiResponse } from "./model";
 
 export function add<T>(arr: T[], elem: T): T[] {
   arr.push(elem);

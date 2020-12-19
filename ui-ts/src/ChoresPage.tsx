@@ -1,6 +1,7 @@
 import React from "react";
+import { ChoreList } from "./ChoreList";
 
 
 export function ChoresPage() {
-    return <p>asd</p>
+    return <ChoreList selectChore={console.log} executeCommand={console.log}></ChoreList>
 }

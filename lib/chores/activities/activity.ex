@@ -7,7 +7,7 @@ defmodule Chores.Activities.Activity do
 
     timestamps()
   end
-  
+
   @type t() :: %__MODULE__{
     __meta__: Ecto.Schema.Metadata.t(),
     id: integer() | nil,

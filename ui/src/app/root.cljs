@@ -123,7 +123,8 @@
           [:div.navbar-item
            log-in-buttons]]]]])))
 
-(defn router []
+(defn router
+  []
   (fn []
     (let [state @app-state
           page (:page state)]
@@ -140,3 +141,4 @@
             [:div#wrapper [:div [navbar] [router {:id "wrapper"}]]]
             [app.footer/footer]
             [str @app-state]])))
+

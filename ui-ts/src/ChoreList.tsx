@@ -12,9 +12,9 @@ interface State {
     searchBox: string
 }
 
-export function StoredCommandList(props: { selectChore: (chore: Chore) => void, executeCommand: (command: Chore) => void }) {
+export function ChoreList(props: { selectChore: (chore: Chore) => void, executeCommand: (command: Chore) => void }) {
     const [store, dispatch] = useApp()
-    const [state, setState] = useState<State>({ loading: true, searchBox: "" , chores: []})
+    const [state, setState] = useState<State>({ loading: false, searchBox: "", chores: [] })
     const [updateStateAt, lazyUpdateStateAt] = stateUpdateFunctions(setState)
 
     useEffect(() => {
@@ -34,42 +34,70 @@ export function StoredCommandList(props: { selectChore: (chore: Chore) => void, 
             title: 'login',
             dataIndex: 'login',
             key: 'login',
+            // width: 100,
+            render: (x: string, _) => x.slice(0, 100)
         },
         {
             title: 'Date',
             dataIndex: 'date',
             key: 'date',
+            // width: 100,
+            render: (x: Date, _) => x.toLocaleDateString()
+
         },
         {
-            title: "",
-            key: "action",
+            title: "Chore",
+            key: "chore",
+            dataIndex: "chore"
+        },
+        {
+            title: 'Tags',
+            key: 'tags',
+            dataIndex: 'tags',
+            render: (tags: string[], _) => (
+                <span>
+                    {tags.map(tag => {
+                        let color = tag.length > 5 ? 'geekblue' : 'green';
+                        if (tag === 'loser') {
+                            color = 'volcano';
+                        }
+                        return (
+                            <Tag color={color} key={tag}>
+                                {tag.toUpperCase()}
+                            </Tag>
+                        );
+                    })}
+                </span>
+            ),
+        },
+        {
+            title: 'action',
             render: (_, command) => {
                 return <div>
                     <Button onClick={() => props.selectChore(command)}>Select</Button>
-                    <Button onClick={() => props.executeCommand(command)}>Execute</Button>
                 </div >
             }
-        }]
+        },
+    ]
 
     const visibleCommands = state.chores.filter(it => {
         return it.login.includes(state.searchBox)
             || it.chore.includes(state.searchBox)
     })
-    
+
     let tableData = Array.from(Array(20).keys()).map(it => (
         {
-            name: `kek ${it}`,
-            commandString: "commandString",
-            args: ["args"],
-            dir: "dir",
-            uses: 1
+            chore: `Marta ${it}`,
+            date: new Date(),
+            login: "Marta",
+            tags: ["kuchnia", 'łazienka']
         }))
     return <>
         <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", zIndex: 999, top: 0, transform: "translate(0px, 15px)" }}>
                 <Input value={state.searchBox} onChange={onSearchBoxInput} placeholder="Filter commands" />
             </div>
-            <Table pagination={{ position: ["topRight"] }} loading={state.loading} columns={columns} dataSource={visibleCommands} sticky />
+            <Table scroll={{ x: 400 }} pagination={{ position: ["topRight"] }} loading={state.loading} columns={columns} dataSource={tableData} sticky />
         </div>
     </>
 

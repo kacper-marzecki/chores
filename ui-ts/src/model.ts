@@ -6,5 +6,6 @@ export type ApiResponse<T> =
 export interface Chore {
     login: string,
     chore: string,
-    date: Date
+    date: Date,
+    tags: string[]
 }

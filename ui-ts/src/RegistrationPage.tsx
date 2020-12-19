@@ -21,7 +21,7 @@ export function RegistrationPage() {
     };
     return (
         <Row style={{ marginTop: 100 }}>
-            <Col span={12} offset={6}>
+            <Col span={20} offset={2} xl={{ span: 6, offset: 9 }}>
                 <Form
                     {...layout}
                     name="basic"
