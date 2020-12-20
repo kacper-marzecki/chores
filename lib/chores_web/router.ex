@@ -36,6 +36,7 @@ defmodule ChoresWeb.Router do
 
     get "/loginCheck", UserController, :test
     resources "/activities", ActivityController, except: [:new, :edit]
+    resources "/tags", TagController, except: [:new, :edit]
     delete "/auth/logout", UserController, :logout
   end
 

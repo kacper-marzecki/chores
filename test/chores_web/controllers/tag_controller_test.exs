@@ -1,10 +1,9 @@
-defmodule ChoresWeb.ActivityControllerTest do
+defmodule ChoresWeb.TagControllerTest do
   use ChoresWeb.ConnCase
 
   alias Chores.Activities
-  alias Chores.Activities.Activity
+  alias Chores.Activities.Tag
   alias Chores.Accounts
-  require IEx
 
   @create_attrs %{
     name: "some name"
@@ -13,22 +12,21 @@ defmodule ChoresWeb.ActivityControllerTest do
     name: "some updated name"
   }
   @invalid_attrs %{name: nil}
-
   @existing_user %Chores.RegisterIn{
     login: "some login",
     password: "somepassword",
     secret: "registration_secret"
   }
 
+  def fixture(:tag) do
+    {:ok, tag} = Activities.create_tag(@create_attrs)
+    tag
+  end
+
   def fixture(:login) do
     {:ok, user} = Accounts.register(@existing_user)
     token = Accounts.generate_user_session_token(user)
     token
-  end
-
-  def fixture(:activity) do
-    {:ok, activity} = Activities.create_activity(@create_attrs)
-    activity
   end
 
   setup %{conn: conn} do
@@ -38,28 +36,31 @@ defmodule ChoresWeb.ActivityControllerTest do
   describe "index" do
     setup [:login]
 
-    test "lists all activities", %{conn: conn, user_token: token} do
-      conn = Plug.Test.init_test_session(conn, user_token: token)
-      conn = get(conn, Routes.activity_path(conn, :index))
+    test "lists all tags", %{conn: conn, user_token: token} do
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_token: token)
+        |> get(Routes.tag_path(conn, :index))
+
       assert json_response(conn, 200)["data"] == []
     end
   end
 
-  describe "create activity" do
+  describe "create tag" do
     setup [:login]
 
-    test "renders activity when data is valid", %{conn: conn, user_token: token} do
+    test "renders tag when data is valid", %{conn: conn, user_token: token} do
       conn =
         conn
         |> Plug.Test.init_test_session(user_token: token)
-        |> post(Routes.activity_path(conn, :create), activity: @create_attrs)
+        |> post(Routes.tag_path(conn, :create), tag: @create_attrs)
 
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, Routes.activity_path(conn, :show, id))
+      conn = get(conn, Routes.tag_path(conn, :show, id))
 
       assert %{
-               "id" => ^id,
+               "id" => id,
                "name" => "some name"
              } = json_response(conn, 200)["data"]
     end
@@ -68,69 +69,65 @@ defmodule ChoresWeb.ActivityControllerTest do
       conn =
         conn
         |> Plug.Test.init_test_session(user_token: token)
-        |> post(Routes.activity_path(conn, :create), activity: @invalid_attrs)
+        |> post(Routes.tag_path(conn, :create), tag: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "update activity" do
-    setup [:login, :create_activity]
+  describe "update tag" do
+    setup [:login, :create_tag]
 
-    test "renders activity when data is valid", %{
+    test "renders tag when data is valid", %{
       conn: conn,
-      activity: %Activity{id: id} = activity,
+      tag: %Tag{id: id} = tag,
       user_token: token
     } do
       conn =
         conn
         |> Plug.Test.init_test_session(user_token: token)
-        |> put(Routes.activity_path(conn, :update, activity), activity: @update_attrs)
+        |> put(Routes.tag_path(conn, :update, tag), tag: @update_attrs)
 
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.activity_path(conn, :show, id))
+      conn = get(conn, Routes.tag_path(conn, :show, id))
 
       assert %{
-               "id" => ^id,
+               "id" => id,
                "name" => "some updated name"
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{
-      conn: conn,
-      activity: activity,
-      user_token: token
-    } do
+    test "renders errors when data is invalid", %{conn: conn, tag: tag, user_token: token} do
       conn =
         conn
         |> Plug.Test.init_test_session(user_token: token)
-        |> put(Routes.activity_path(conn, :update, activity), activity: @invalid_attrs)
+        |> put(Routes.tag_path(conn, :update, tag), tag: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
-  describe "delete activity" do
-    setup [:login, :create_activity]
+  describe "delete tag" do
+    setup [:login, :create_tag]
 
-    test "deletes chosen activity", %{conn: conn, activity: activity, user_token: token} do
+    test "deletes chosen tag", %{conn: conn, tag: tag, user_token: token} do
       conn =
         conn
         |> Plug.Test.init_test_session(user_token: token)
-        |> delete(Routes.activity_path(conn, :delete, activity))
+        |> delete(Routes.tag_path(conn, :delete, tag))
 
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.activity_path(conn, :show, activity))
+        get(conn, Routes.tag_path(conn, :show, tag))
       end
     end
   end
 
-  defp create_activity(_) do
-    activity = fixture(:activity)
-    %{activity: activity}
+  defp create_tag(_) do
+    tag = fixture(:tag)
+    %{tag: tag}
   end
 
   defp login(_) do

@@ -4,7 +4,6 @@ defmodule Chores.Activities.Activity do
 
   schema "activities" do
     field :name, :string
-
     timestamps()
   end
 
