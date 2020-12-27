@@ -9,3 +9,8 @@ export interface Chore {
     date: Date,
     tags: string[]
 }
+
+export interface Activity {
+    name: string,
+    tags: string[]
+}

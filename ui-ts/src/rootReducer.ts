@@ -3,7 +3,7 @@ import { act } from "react-dom/test-utils";
 import { Chore } from './model';
 import { add, notifyInfo, stateUpdateFn } from "./utils";
 
-export type AppPage = "login" | "sign-up" | "chores" | "loading";
+export type AppPage = "login" | "sign-up" | "activities" | "loading" | "chores";
 
 export type UserState =
     { t: "logged", login: string }
@@ -33,7 +33,7 @@ const appReducer = createReducer(initialState, (builder) => {
                     state.selectedPage = "login"
                     break;
                 case "logged":
-                    state.selectedPage = "chores"
+                    state.selectedPage = "activities"
             }
         })
 })

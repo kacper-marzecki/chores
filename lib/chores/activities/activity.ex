@@ -8,13 +8,12 @@ defmodule Chores.Activities.Activity do
   end
 
   @type t() :: %__MODULE__{
-    __meta__: Ecto.Schema.Metadata.t(),
-    id: integer() | nil,
-    name: String.t(),
-    inserted_at: NaiveDateTime.t(),
-    updated_at: NaiveDateTime.t()
-  }
-
+          __meta__: Ecto.Schema.Metadata.t(),
+          id: integer() | nil,
+          name: String.t(),
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
+        }
 
   @doc false
   def changeset(%__MODULE__{} = activity, attrs) do

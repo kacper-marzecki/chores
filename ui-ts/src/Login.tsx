@@ -21,7 +21,7 @@ export function Login() {
     };
     return (
         <Row style={{ marginTop: 100 }}>
-            <Col span={20} offset={2} xl={{span: 6, offset: 9}}>
+            <Col span={20} offset={2} md={{span: 10, offset: 7}}  xxl={{span: 6, offset: 9}}>
                 <Form
                     {...layout}
                     name="basic"

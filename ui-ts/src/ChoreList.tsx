@@ -12,7 +12,7 @@ interface State {
     searchBox: string
 }
 
-export function ChoreList(props: { selectChore: (chore: Chore) => void, executeCommand: (command: Chore) => void }) {
+export function ActiityList(props: { selectChore: (chore: Chore) => void, executeCommand: (command: Chore) => void }) {
     const [store, dispatch] = useApp()
     const [state, setState] = useState<State>({ loading: false, searchBox: "", chores: [] })
     const [updateStateAt, lazyUpdateStateAt] = stateUpdateFunctions(setState)

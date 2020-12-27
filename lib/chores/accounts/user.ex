@@ -11,14 +11,14 @@ defmodule Chores.Accounts.User do
   end
 
   @type t() :: %__MODULE__{
-    __meta__: Ecto.Schema.Metadata.t(),
-    id: integer() | nil,
-    login: String.t(),
-    password: String.t(),
-    role: String.t(),
-    inserted_at: NaiveDateTime.t(),
-    updated_at: NaiveDateTime.t()
-  }
+          __meta__: Ecto.Schema.Metadata.t(),
+          id: integer() | nil,
+          login: String.t(),
+          password: String.t(),
+          role: String.t(),
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
+        }
 
   @doc false
   def changeset(user, attrs) do
@@ -48,7 +48,6 @@ defmodule Chores.Accounts.User do
   defp validate_login(changeset) do
     changeset
     |> validate_required([:login])
-    # |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:login, max: 160)
     |> unsafe_validate_unique(:login, Chores.Repo)
     |> unique_constraint(:login)

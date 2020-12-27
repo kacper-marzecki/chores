@@ -22,21 +22,20 @@ defmodule Chores.Accounts do
 
   """
   def register(%Chores.RegisterIn{} = params) do
-    if  get_registration_secret() == params.secret do
+    if get_registration_secret() == params.secret do
       User.registration_changeset(params)
       |> Repo.insert()
     else
       {:error, :unauthorized}
     end
-
   end
 
   defp get_registration_secret() do
     System.get_env("REGISTRATION_SECRET")
   end
 
- @spec get_user_by_login(String.t()) :: any
- @doc """
+  @spec get_user_by_login(String.t()) :: any
+  @doc """
   Gets a user by email.
 
   ## Examples
@@ -52,7 +51,7 @@ defmodule Chores.Accounts do
     Repo.get_by(User, login: login)
   end
 
- @doc """
+  @doc """
   Gets a user by email and password.
 
   ## Examples
@@ -67,9 +66,12 @@ defmodule Chores.Accounts do
   def get_user_by_login_and_password(login, password)
       when is_binary(login) and is_binary(password) do
     user = Repo.get_by(User, login: login)
-    if User.valid_password?(user, password)
-      do {:ok, user}
-      else {:error, :unauthorized} end
+
+    if User.valid_password?(user, password) do
+      {:ok, user}
+    else
+      {:error, :unauthorized}
+    end
   end
 
   ## Session
@@ -83,7 +85,6 @@ defmodule Chores.Accounts do
     token
   end
 
-
   @doc """
   Gets the user with the given signed token.
   """
@@ -96,9 +97,7 @@ defmodule Chores.Accounts do
   Deletes the session token
   """
   def delete_session_token(token) do
-    # IO.puts(token)
     Repo.delete_all(UserToken.token_and_context_query(token, "session"))
     :ok
   end
-
 end
