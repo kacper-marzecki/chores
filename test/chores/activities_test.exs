@@ -55,11 +55,6 @@ defmodule Chores.ActivitiesTest do
       assert {:ok, %Activity{}} = Activities.delete_activity(activity)
       assert_raise Ecto.NoResultsError, fn -> Activities.get_activity!(activity.id) end
     end
-
-    test "change_activity/1 returns a activity changeset" do
-      activity = activity_fixture()
-      assert %Ecto.Changeset{} = Activities.change_activity(activity)
-    end
   end
 
   describe "tags" do

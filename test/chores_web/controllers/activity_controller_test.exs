@@ -111,6 +111,23 @@ defmodule ChoresWeb.ActivityControllerTest do
     end
   end
 
+  describe "create an duplicate activity" do
+    setup [:login, :create_activity]
+
+    test "cannot create an activity with a duplicated name ", %{
+      conn: conn,
+      activity: %Activity{id: id} = activity,
+      user_token: token
+    } do
+      conn =
+        conn
+        |> Plug.Test.init_test_session(user_token: token)
+        |> post("api/activities/", activity: @create_attrs)
+
+      assert %{"name" => ["has already been taken"]} = json_response(conn, 422)["errors"]
+    end
+  end
+
   describe "delete activity" do
     setup [:login, :create_activity]
 

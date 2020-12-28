@@ -18,10 +18,9 @@ export function ActiityList(props: { selectChore: (chore: Chore) => void, execut
     const [updateStateAt, lazyUpdateStateAt] = stateUpdateFunctions(setState)
 
     useEffect(() => {
-        // apiGet<StoredCommand[]>("command/stored")
-        //     .then(updateStateAt("commands"))
-        //     .catch(notifyError)
-        //     .finally(lazyUpdateStateAt("loading")(false))
+        apiGet<any[]>("activities")
+            .then(_ => console.log(_))
+            .catch(notifyError)
     }, [])
 
     const onSearchBoxInput = (e: ChangeEvent<HTMLInputElement>) => {

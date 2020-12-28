@@ -72,6 +72,7 @@ function App() {
                     <div style={{ padding: 20, minHeight: 360 }}>
                         {content}
                     </div>
+                    {/* <Button onClick={() => apiGet()}></Button> */}
                 </Content>
             </Layout>
         </Layout>

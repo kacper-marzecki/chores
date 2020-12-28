@@ -7,6 +7,14 @@ defmodule Chores.Activities.Tag do
     timestamps()
   end
 
+  @type t() :: %__MODULE__{
+    __meta__: Ecto.Schema.Metadata.t(),
+    id: integer() | nil,
+    name: String.t(),
+    inserted_at: NaiveDateTime.t(),
+    updated_at: NaiveDateTime.t()
+  }
+
   @doc false
   def changeset(tag, attrs) do
     tag

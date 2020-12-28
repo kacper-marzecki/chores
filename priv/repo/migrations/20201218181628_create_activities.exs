@@ -7,6 +7,7 @@ defmodule Chores.Repo.Migrations.CreateActivities do
 
       timestamps()
     end
+    create unique_index(:activities, [:name])
 
   end
 end
