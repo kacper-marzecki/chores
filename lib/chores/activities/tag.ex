@@ -2,18 +2,18 @@ defmodule Chores.Activities.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:name, :string, []}
+  @derive {Phoenix.Param, key: :name}
   schema "tags" do
-    field :name, :string
     timestamps()
   end
 
   @type t() :: %__MODULE__{
-    __meta__: Ecto.Schema.Metadata.t(),
-    id: integer() | nil,
-    name: String.t(),
-    inserted_at: NaiveDateTime.t(),
-    updated_at: NaiveDateTime.t()
-  }
+          __meta__: Ecto.Schema.Metadata.t(),
+          name: String.t(),
+          inserted_at: NaiveDateTime.t(),
+          updated_at: NaiveDateTime.t()
+        }
 
   @doc false
   def changeset(tag, attrs) do
